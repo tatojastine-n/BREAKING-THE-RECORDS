@@ -1,96 +1,67 @@
-#include <bits/stdc++.h>
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
 
-using namespace std;
-
-string ltrim(const string &);
-string rtrim(const string &);
-vector<string> split(const string &);
-
-/*
- * Complete the 'breakingRecords' function below.
- *
- * The function is expected to return an INTEGER_ARRAY.
- * The function accepts INTEGER_ARRAY scores as parameter.
- */
-
-vector<int> breakingRecords(vector<int> scores) {
-
-}
-
-int main()
+class Result
 {
-    ofstream fout(getenv("OUTPUT_PATH"));
 
-    string n_temp;
-    getline(cin, n_temp);
+    /*
+     * Complete the 'breakingRecords' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts INTEGER_ARRAY scores as parameter.
+     */
 
-    int n = stoi(ltrim(rtrim(n_temp)));
-
-    string scores_temp_temp;
-    getline(cin, scores_temp_temp);
-
-    vector<string> scores_temp = split(rtrim(scores_temp_temp));
-
-    vector<int> scores(n);
-
-    for (int i = 0; i < n; i++) {
-        int scores_item = stoi(scores_temp[i]);
-
-        scores[i] = scores_item;
-    }
-
-    vector<int> result = breakingRecords(scores);
-
-    for (size_t i = 0; i < result.size(); i++) {
-        fout << result[i];
-
-        if (i != result.size() - 1) {
-            fout << " ";
+    public static List<int> breakingRecords(List<int> scores)
+    {
+        if (scores.Count == 0) return new List<int> { 0, 0 };
+        int max = scores[0];
+        int min = scores[0];
+        int maxBreaks = 0;
+        int minBreaks = 0;
+        for (int i = 1; i < scores.Count; i++)
+        {
+            if (scores[i] > max)
+            {
+                max = scores[i];
+                maxBreaks++;
+            }
+            if (scores[i] < min)
+            {
+                min = scores[i];
+                minBreaks++;
+            }
         }
+        return new List<int> { maxBreaks, minBreaks };
     }
 
-    fout << "\n";
-
-    fout.close();
-
-    return 0;
 }
 
-string ltrim(const string &str) {
-    string s(str);
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
 
-    s.erase(
-        s.begin(),
-        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
-    );
+        int n = Convert.ToInt32(Console.ReadLine().Trim());
 
-    return s;
-}
+        List<int> scores = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(scoresTemp => Convert.ToInt32(scoresTemp)).ToList();
 
-string rtrim(const string &str) {
-    string s(str);
+        List<int> result = Result.breakingRecords(scores);
 
-    s.erase(
-        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
-        s.end()
-    );
+        textWriter.WriteLine(String.Join(" ", result));
 
-    return s;
-}
-
-vector<string> split(const string &str) {
-    vector<string> tokens;
-
-    string::size_type start = 0;
-    string::size_type end = 0;
-
-    while ((end = str.find(" ", start)) != string::npos) {
-        tokens.push_back(str.substr(start, end - start));
-
-        start = end + 1;
+        textWriter.Flush();
+        textWriter.Close();
     }
-
-    tokens.push_back(str.substr(start));
-
-    return tokens;
 }
